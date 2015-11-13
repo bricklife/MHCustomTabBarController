@@ -29,8 +29,10 @@ NSString *const MHCustomTabBarControllerViewControllerAlreadyVisibleNotification
 
 @interface MHCustomTabBarController ()
 
+@property (nonatomic, strong) IBInspectable NSString *initialIdentifier;
+
 @property (nonatomic, strong) NSMutableDictionary *viewControllersByIdentifier;
-@property (strong, nonatomic) NSString *destinationIdentifier;
+@property (nonatomic, strong) NSString *destinationIdentifier;
 @property (nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
 
 @end
@@ -43,11 +45,11 @@ NSString *const MHCustomTabBarControllerViewControllerAlreadyVisibleNotification
     self.viewControllersByIdentifier = [NSMutableDictionary dictionary];
 }
 
--(void) viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.childViewControllers.count < 1) {
-        [self performSegueWithIdentifier:@"viewController1" sender:[self.buttons objectAtIndex:0]];
+    if (self.childViewControllers.count < 1 && self.initialIdentifier) {
+        [self performSegueWithIdentifier:self.initialIdentifier sender:[self.buttons objectAtIndex:0]];
     }
 }
 
